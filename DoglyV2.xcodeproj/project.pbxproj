@@ -1,0 +1,574 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		431305D52D4C13B9001EB1A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 431305B32D4C13B8001EB1A2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 431305BA2D4C13B8001EB1A2;
+			remoteInfo = DoglyV2;
+		};
+		431305DF2D4C13B9001EB1A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 431305B32D4C13B8001EB1A2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 431305BA2D4C13B8001EB1A2;
+			remoteInfo = DoglyV2;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		431305BB2D4C13B8001EB1A2 /* DoglyV2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoglyV2.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		431305D42D4C13B9001EB1A2 /* DoglyV2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DoglyV2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		431305DE2D4C13B9001EB1A2 /* DoglyV2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DoglyV2UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		431305E62D4C13B9001EB1A2 /* Exceptions for "DoglyV2" folder in "DoglyV2" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 431305BA2D4C13B8001EB1A2 /* DoglyV2 */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		431305BD2D4C13B8001EB1A2 /* DoglyV2 */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				431305E62D4C13B9001EB1A2 /* Exceptions for "DoglyV2" folder in "DoglyV2" target */,
+			);
+			path = DoglyV2;
+			sourceTree = "<group>";
+		};
+		431305D72D4C13B9001EB1A2 /* DoglyV2Tests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = DoglyV2Tests;
+			sourceTree = "<group>";
+		};
+		431305E12D4C13B9001EB1A2 /* DoglyV2UITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = DoglyV2UITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		431305B82D4C13B8001EB1A2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		431305D12D4C13B9001EB1A2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		431305DB2D4C13B9001EB1A2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		431305B22D4C13B8001EB1A2 = {
+			isa = PBXGroup;
+			children = (
+				431305BD2D4C13B8001EB1A2 /* DoglyV2 */,
+				431305D72D4C13B9001EB1A2 /* DoglyV2Tests */,
+				431305E12D4C13B9001EB1A2 /* DoglyV2UITests */,
+				431305BC2D4C13B8001EB1A2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		431305BC2D4C13B8001EB1A2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				431305BB2D4C13B8001EB1A2 /* DoglyV2.app */,
+				431305D42D4C13B9001EB1A2 /* DoglyV2Tests.xctest */,
+				431305DE2D4C13B9001EB1A2 /* DoglyV2UITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		431305BA2D4C13B8001EB1A2 /* DoglyV2 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 431305E72D4C13B9001EB1A2 /* Build configuration list for PBXNativeTarget "DoglyV2" */;
+			buildPhases = (
+				431305B72D4C13B8001EB1A2 /* Sources */,
+				431305B82D4C13B8001EB1A2 /* Frameworks */,
+				431305B92D4C13B8001EB1A2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				431305BD2D4C13B8001EB1A2 /* DoglyV2 */,
+			);
+			name = DoglyV2;
+			packageProductDependencies = (
+			);
+			productName = DoglyV2;
+			productReference = 431305BB2D4C13B8001EB1A2 /* DoglyV2.app */;
+			productType = "com.apple.product-type.application";
+		};
+		431305D32D4C13B9001EB1A2 /* DoglyV2Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 431305EC2D4C13B9001EB1A2 /* Build configuration list for PBXNativeTarget "DoglyV2Tests" */;
+			buildPhases = (
+				431305D02D4C13B9001EB1A2 /* Sources */,
+				431305D12D4C13B9001EB1A2 /* Frameworks */,
+				431305D22D4C13B9001EB1A2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				431305D62D4C13B9001EB1A2 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				431305D72D4C13B9001EB1A2 /* DoglyV2Tests */,
+			);
+			name = DoglyV2Tests;
+			packageProductDependencies = (
+			);
+			productName = DoglyV2Tests;
+			productReference = 431305D42D4C13B9001EB1A2 /* DoglyV2Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		431305DD2D4C13B9001EB1A2 /* DoglyV2UITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 431305EF2D4C13B9001EB1A2 /* Build configuration list for PBXNativeTarget "DoglyV2UITests" */;
+			buildPhases = (
+				431305DA2D4C13B9001EB1A2 /* Sources */,
+				431305DB2D4C13B9001EB1A2 /* Frameworks */,
+				431305DC2D4C13B9001EB1A2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				431305E02D4C13B9001EB1A2 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				431305E12D4C13B9001EB1A2 /* DoglyV2UITests */,
+			);
+			name = DoglyV2UITests;
+			packageProductDependencies = (
+			);
+			productName = DoglyV2UITests;
+			productReference = 431305DE2D4C13B9001EB1A2 /* DoglyV2UITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		431305B32D4C13B8001EB1A2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					431305BA2D4C13B8001EB1A2 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					431305D32D4C13B9001EB1A2 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 431305BA2D4C13B8001EB1A2;
+					};
+					431305DD2D4C13B9001EB1A2 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 431305BA2D4C13B8001EB1A2;
+					};
+				};
+			};
+			buildConfigurationList = 431305B62D4C13B8001EB1A2 /* Build configuration list for PBXProject "DoglyV2" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 431305B22D4C13B8001EB1A2;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 431305BC2D4C13B8001EB1A2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				431305BA2D4C13B8001EB1A2 /* DoglyV2 */,
+				431305D32D4C13B9001EB1A2 /* DoglyV2Tests */,
+				431305DD2D4C13B9001EB1A2 /* DoglyV2UITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		431305B92D4C13B8001EB1A2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		431305D22D4C13B9001EB1A2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		431305DC2D4C13B9001EB1A2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		431305B72D4C13B8001EB1A2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		431305D02D4C13B9001EB1A2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		431305DA2D4C13B9001EB1A2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		431305D62D4C13B9001EB1A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 431305BA2D4C13B8001EB1A2 /* DoglyV2 */;
+			targetProxy = 431305D52D4C13B9001EB1A2 /* PBXContainerItemProxy */;
+		};
+		431305E02D4C13B9001EB1A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 431305BA2D4C13B8001EB1A2 /* DoglyV2 */;
+			targetProxy = 431305DF2D4C13B9001EB1A2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		431305E82D4C13B9001EB1A2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3T8U2C2UDF;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DoglyV2/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nuxe.DoglyV2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		431305E92D4C13B9001EB1A2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3T8U2C2UDF;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DoglyV2/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nuxe.DoglyV2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		431305EA2D4C13B9001EB1A2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		431305EB2D4C13B9001EB1A2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		431305ED2D4C13B9001EB1A2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3T8U2C2UDF;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nuxe.DoglyV2Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DoglyV2.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DoglyV2";
+			};
+			name = Debug;
+		};
+		431305EE2D4C13B9001EB1A2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3T8U2C2UDF;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nuxe.DoglyV2Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DoglyV2.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DoglyV2";
+			};
+			name = Release;
+		};
+		431305F02D4C13B9001EB1A2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3T8U2C2UDF;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nuxe.DoglyV2UITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = DoglyV2;
+			};
+			name = Debug;
+		};
+		431305F12D4C13B9001EB1A2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3T8U2C2UDF;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nuxe.DoglyV2UITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = DoglyV2;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		431305B62D4C13B8001EB1A2 /* Build configuration list for PBXProject "DoglyV2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				431305EA2D4C13B9001EB1A2 /* Debug */,
+				431305EB2D4C13B9001EB1A2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		431305E72D4C13B9001EB1A2 /* Build configuration list for PBXNativeTarget "DoglyV2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				431305E82D4C13B9001EB1A2 /* Debug */,
+				431305E92D4C13B9001EB1A2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		431305EC2D4C13B9001EB1A2 /* Build configuration list for PBXNativeTarget "DoglyV2Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				431305ED2D4C13B9001EB1A2 /* Debug */,
+				431305EE2D4C13B9001EB1A2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		431305EF2D4C13B9001EB1A2 /* Build configuration list for PBXNativeTarget "DoglyV2UITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				431305F02D4C13B9001EB1A2 /* Debug */,
+				431305F12D4C13B9001EB1A2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 431305B32D4C13B8001EB1A2 /* Project object */;
+}
