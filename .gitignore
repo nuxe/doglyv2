@@ -1,0 +1,19 @@
+# Ignore build artifacts
+DerivedData/
+*.xcworkspace
+*.xcuserdata/
+*.xcuserstate
+xcuserdata/
+xcuserdata/*
+
+# Ignore CocoaPods & Carthage dependencies
+Pods/
+Carthage/
+
+# Ignore Swift Package Manager
+.build/
+.swiftpm/
+
+# Ignore log files & environment files
+*.log
+.env

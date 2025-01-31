@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		43986D5E2D4C6AE4004B66B1 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 43986D5D2D4C6AE4004B66B1 /* SDWebImage */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		431305D52D4C13B9001EB1A2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43986D5E2D4C6AE4004B66B1 /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +130,7 @@
 			);
 			name = DoglyV2;
 			packageProductDependencies = (
+				43986D5D2D4C6AE4004B66B1 /* SDWebImage */,
 			);
 			productName = DoglyV2;
 			productReference = 431305BB2D4C13B8001EB1A2 /* DoglyV2.app */;
@@ -208,6 +214,9 @@
 			);
 			mainGroup = 431305B22D4C13B8001EB1A2;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				43986D5C2D4C6AE4004B66B1 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 431305BC2D4C13B8001EB1A2 /* Products */;
 			projectDirPath = "";
@@ -569,6 +578,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		43986D5C2D4C6AE4004B66B1 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
+			requirement = {
+				kind = exactVersion;
+				version = 5.20.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		43986D5D2D4C6AE4004B66B1 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 43986D5C2D4C6AE4004B66B1 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 431305B32D4C13B8001EB1A2 /* Project object */;
 }
