@@ -44,6 +44,11 @@ class DogDetailViewController: UIViewController {
         setupSubviews()
         bindViewModel()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.fetchImages()
+    }
 
     private func setupSubviews() {
         view.addSubview(collectionView)
@@ -58,8 +63,6 @@ class DogDetailViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.fetchImages()
-        
         viewModel.$breedImages
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
@@ -90,7 +93,6 @@ class DogDetailViewController: UIViewController {
     private func refresh() {
         viewModel.fetchImages()
     }
-    
 }
 
 extension DogDetailViewController: UICollectionViewDataSource {

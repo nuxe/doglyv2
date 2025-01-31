@@ -17,7 +17,9 @@ class DogListViewController: UIViewController {
         let view = UITableView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.dataSource = self
-        view.register(UITableViewCell.self, forCellReuseIdentifier: "\(UITableViewCell.self)")
+        view.delegate = self
+        view.register(FavoritableTableViewCell.self, forCellReuseIdentifier: FavoritableTableViewCell.reuseIdentifier)
+        view.register(SectionHeaderFavoriteView.self, forHeaderFooterViewReuseIdentifier: SectionHeaderFavoriteView.reuseIdentifier)
         view.refreshControl = refreshControl
         return view
     }()
@@ -50,7 +52,7 @@ class DogListViewController: UIViewController {
     private func bindViewModel() {
         viewModel.fetchList()
         
-        viewModel.$breedList
+        viewModel.$sections
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.tableView.reloadData()
@@ -85,16 +87,42 @@ class DogListViewController: UIViewController {
 
 extension DogListViewController: UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return viewModel.sections.count
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.breedList?.message.count ?? 0
+        return viewModel.sections[section].subBreeds.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "\(UITableViewCell.self)", for: indexPath)
-        if let keys = viewModel.breedList?.message.keys,
-           indexPath.row < keys.count {
-            cell.textLabel?.text = Array(keys)[indexPath.row]
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: FavoritableTableViewCell.reuseIdentifier, for: indexPath) as? FavoritableTableViewCell else {
+            return FavoritableTableViewCell()
         }
+        let section = viewModel.sections[indexPath.section]
+        let row = indexPath.row
+        let subBreedData = section.subBreeds[row]
+        cell.configure(subBreedData: subBreedData)
+        
+        cell.didUpdateFavorite = { [weak self] isFavorite in
+            self?.viewModel.updateFavoriteSubBreed(subBreedData.identifier, isFavorite)
+        }
+
         return cell
+    }
+}
+
+extension DogListViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: SectionHeaderFavoriteView.reuseIdentifier) as? SectionHeaderFavoriteView else {
+            return SectionHeaderFavoriteView()
+        }
+        let breedData = viewModel.sections[section]
+        header.configure(breedData: breedData)
+        header.didUpdateFavorite = { [weak self] isFavorite in
+            self?.viewModel.updateFavoriteBreed(breedData.breed, isFavorite)
+        }
+        return header
     }
 }
