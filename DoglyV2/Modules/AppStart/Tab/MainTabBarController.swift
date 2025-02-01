@@ -14,17 +14,22 @@ class MainTabBarController: UITabBarController {
     }
     
     private func setupTabs() {
+        // Dependecies
+        let favoritesStream: FavoritesStreaming = FavoritesStream()
+        let breedService: BreedService = BreedService()
+
         // List
-        let list = DogListViewController()
+        let dogListViewModel = DogListViewModel(breedService: breedService, favoritesStream: favoritesStream)
+        let list = DogListViewController(dogListViewModel)
         list.title = "Breeds"
         list.tabBarItem = UITabBarItem(title: "Breeds", image: UIImage(systemName: "list.bullet"), selectedImage: UIImage(systemName: "list.bullet.circle.fill"))
 
         // Detail
-        let detail = DogDetailViewController()
+        let dogDetailViewModel = DogDetailViewModel(breedService: breedService, favoritesStream: favoritesStream)
+        let detail = DogDetailViewController(dogDetailViewModel)
         detail.title = "Details"
         detail.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "star"), selectedImage: UIImage(systemName: "star.fill"))
 
-        //
         let listNav = UINavigationController(rootViewController: list)
         let detailNav = UINavigationController(rootViewController: detail)
 

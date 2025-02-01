@@ -29,7 +29,7 @@ class FavoritableTableViewCell: UITableViewCell {
     }()
     
     // MARK: - Properties
-    private var subBreedData: SubBreedFavorite?
+    private var subBreed: SubBreed?
     var didUpdateFavorite: ((Bool) -> ())? = nil
 
     // MARK: - Lifecycle
@@ -44,16 +44,17 @@ class FavoritableTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        subBreedData = nil
+        subBreed = nil
         subBreedLabel.text = nil
         favoriteButton.isSelected = false
+        didUpdateFavorite = nil
     }
     
     // MARK: - Configuration
-    func configure(subBreedData: SubBreedFavorite) {
-        self.subBreedData = subBreedData
-        subBreedLabel.text = subBreedData.identifier.capitalized
-        favoriteButton.isSelected = subBreedData.isFavorite
+    func configure(subBreed: SubBreed) {
+        self.subBreed = subBreed
+        subBreedLabel.text = subBreed.name.capitalized
+        favoriteButton.isSelected = subBreed.isFavorite
     }
     
     // MARK: - Private Methods
@@ -75,7 +76,7 @@ class FavoritableTableViewCell: UITableViewCell {
     }
     
     @objc private func didTapFavorite() {
-        guard let subBreedData = subBreedData else { return }
-        didUpdateFavorite?(!subBreedData.isFavorite)
+        guard let subBreed = subBreed else { return }
+        didUpdateFavorite?(!subBreed.isFavorite)
     }
 }

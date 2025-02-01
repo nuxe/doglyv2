@@ -7,6 +7,7 @@
 
 import Foundation
 
+// Network models
 struct BreedList: Decodable {
     let message: [String: [String]]
 }
@@ -14,3 +15,4 @@ struct BreedList: Decodable {
 struct BreedImageList: Decodable {
     let message: [URL]
 }
+

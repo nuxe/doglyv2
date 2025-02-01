@@ -9,8 +9,8 @@ import Combine
 import UIKit
 
 class DogListViewController: UIViewController {
-
-    private lazy var viewModel: DogListViewModel = DogListViewModel()
+        
+    private let viewModel: DogListViewModel
     private var cancellables = Set<AnyCancellable>()
     
     private lazy var tableView: UITableView = {
@@ -30,6 +30,15 @@ class DogListViewController: UIViewController {
         control.addTarget(self, action: #selector(refresh), for: .valueChanged)
         return control
     }()
+    
+    init(_ viewModel: DogListViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,7 +61,7 @@ class DogListViewController: UIViewController {
     private func bindViewModel() {
         viewModel.fetchList()
         
-        viewModel.$sections
+        viewModel.$breeds
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.tableView.reloadData()
@@ -88,24 +97,24 @@ class DogListViewController: UIViewController {
 extension DogListViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel.sections.count
+        return viewModel.breeds.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.sections[section].subBreeds.count
+        return viewModel.breeds[section].subBreeds.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FavoritableTableViewCell.reuseIdentifier, for: indexPath) as? FavoritableTableViewCell else {
             return FavoritableTableViewCell()
         }
-        let section = viewModel.sections[indexPath.section]
+        let breed = viewModel.breeds[indexPath.section]
         let row = indexPath.row
-        let subBreedData = section.subBreeds[row]
-        cell.configure(subBreedData: subBreedData)
+        let subBreed = breed.subBreeds[row]
+        cell.configure(subBreed: subBreed)
         
         cell.didUpdateFavorite = { [weak self] isFavorite in
-            self?.viewModel.updateFavoriteSubBreed(subBreedData.identifier, isFavorite)
+            self?.viewModel.updateFavoriteSubBreed(subBreed.name, isFavorite)
         }
 
         return cell
@@ -118,10 +127,10 @@ extension DogListViewController: UITableViewDelegate {
         guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: SectionHeaderFavoriteView.reuseIdentifier) as? SectionHeaderFavoriteView else {
             return SectionHeaderFavoriteView()
         }
-        let breedData = viewModel.sections[section]
+        let breedData = viewModel.breeds[section]
         header.configure(breedData: breedData)
         header.didUpdateFavorite = { [weak self] isFavorite in
-            self?.viewModel.updateFavoriteBreed(breedData.breed, isFavorite)
+            self?.viewModel.updateFavoriteBreed(breedData.name, isFavorite)
         }
         return header
     }

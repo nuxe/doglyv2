@@ -10,25 +10,57 @@ import UIKit
 
 class DogDetailViewModel {
 
-    @Published var breedImages: BreedImageList?
+    @Published var breedImages: [URL] = []
     @Published var errorMessage: String?
+    private var favorites: [String] = []
 
-    private let breedService = BreedService()
     private var cancellables = Set<AnyCancellable>()
+    
+    private let breedService: BreedService
+    private let favoritesStream: FavoritesStreaming
 
-    func fetchImages(
-        _ breed: String = "corgi",
-        _ subbreed: String? = nil,
-        _ count: Int = 3
-    ) {
-        breedService
-            .fetchImages(breed, subbreed, count)
+    init(
+        breedService: BreedService,
+        favoritesStream: FavoritesStreaming) {
+        self.breedService = breedService
+        self.favoritesStream = favoritesStream
+            
+        favoritesStream
+            .breeds
             .sink { [weak self] completion in
-                if case .failure(let error) = completion {
+                switch completion {
+                case let .failure(error):
                     self?.errorMessage = error.localizedDescription
+                default:
+                    break
                 }
-            } receiveValue: { [weak self] images in
-                self?.breedImages = images
+            } receiveValue: { [weak self] breeds  in
+                self?.fetchForFavorites(breeds)
+            }
+            .store(in: &cancellables)
+    }
+
+    private func fetchForFavorites(_ breeds: [Breed]) {
+        // TODO: Should we empty out cancellables here?
+        let publishers = breeds.map { breed in
+            breedService
+                .fetchImages(breed.name)
+                .map { imageList in
+                    imageList.message
+                }
+                .catch { error -> AnyPublisher<[URL], Never> in
+                    print("Error fetching \(breed): \(error)")
+                    return Just([]).eraseToAnyPublisher()
+                }
+                .eraseToAnyPublisher()
+        }
+        
+        Publishers
+            .MergeMany(publishers)
+            .collect()
+            .sink { [weak self] results in
+                let allUrls = results.flatMap { $0 }
+                self?.breedImages = allUrls
             }
             .store(in: &cancellables)
     }

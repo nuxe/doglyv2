@@ -28,7 +28,7 @@ class SectionHeaderFavoriteView: UITableViewHeaderFooterView {
     }()
     
     // MARK: - Properties
-    private var breedData: BreedFavorite?
+    private var breedData: Breed?
     
     var didUpdateFavorite: ((Bool) -> ())? = nil
     
@@ -47,12 +47,13 @@ class SectionHeaderFavoriteView: UITableViewHeaderFooterView {
         breedData = nil
         titleLabel.text = nil
         favoriteButton.isSelected = false
+        didUpdateFavorite = nil
     }
     
     // MARK: - Configuration
-    func configure(breedData: BreedFavorite) {
+    func configure(breedData: Breed) {
         self.breedData = breedData
-        titleLabel.text = breedData.breed
+        titleLabel.text = breedData.name
         favoriteButton.isSelected = breedData.isFavorite
     }
     

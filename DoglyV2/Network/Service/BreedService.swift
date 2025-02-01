@@ -20,9 +20,9 @@ class BreedService {
     }
     
     func fetchImages(
-        _ breed: String = "corgi",
+        _ breed: String,
         _ subbreed: String? = nil,
-        _ count: Int = 3
+        _ count: Int = 1
     ) -> AnyPublisher<BreedImageList, Error> {
         var urlString: String = BreedService.baseURL + "breed/\(breed)/images/random/\(count)"
         

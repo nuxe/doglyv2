@@ -10,7 +10,7 @@ import UIKit
 
 class DogDetailViewController: UIViewController {
 
-    private lazy var viewModel: DogDetailViewModel = DogDetailViewModel()
+    private let viewModel: DogDetailViewModel
     private var cancellables = Set<AnyCancellable>()
     
     private lazy var layout: UICollectionViewFlowLayout = {
@@ -39,6 +39,15 @@ class DogDetailViewController: UIViewController {
         return control
     }()
     
+    init(_ viewModel: DogDetailViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSubviews()
@@ -47,7 +56,7 @@ class DogDetailViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        viewModel.fetchImages()
+        // TODO: Refetch images
     }
 
     private func setupSubviews() {
@@ -91,7 +100,7 @@ class DogDetailViewController: UIViewController {
     
     @objc
     private func refresh() {
-        viewModel.fetchImages()
+        // TODO: Refresh Images
     }
 }
 
@@ -102,19 +111,15 @@ extension DogDetailViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.breedImages?.message.count ?? 0
+        return viewModel.breedImages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ImageCollectionViewCell.self)", for: indexPath) as? ImageCollectionViewCell else {
             return ImageCollectionViewCell(frame: .zero)
         }
-        
-        if let images = viewModel.breedImages?.message,
-           indexPath.row < images.count {
-            let url = images[indexPath.row]
-            cell.imageView.sd_setImage(with: url)
-        }
+        let url = viewModel.breedImages[indexPath.row]
+        cell.imageView.sd_setImage(with: url)
         return cell
     }
 }
