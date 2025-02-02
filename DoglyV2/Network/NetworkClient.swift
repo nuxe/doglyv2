@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 
+// MARK: - Error Types
 enum NetworkError: Error {
     case invalidRequest
     case invalidResponse
@@ -15,40 +16,39 @@ enum NetworkError: Error {
     case decodingFailed(Error)
 }
 
+// MARK: - HTTP Methods
 enum HTTPMethod: String {
-    case GET
-    case POST
-    case DELETE
-    case PUT
+    case GET, POST, DELETE, PUT
 }
 
-class NetworkClient {
+// MARK: - NetworkClient
+final class NetworkClient {
+    static let shared = NetworkClient()
+    private init() {}
     
-    static let shared = NetworkClient() // Singleton instance
-
     func fetch<T: Decodable>(
         urlString: String,
         method: HTTPMethod = .GET,
         body: Data? = nil,
-        headers: [String : String] = [:]
+        headers: [String: String] = [:]
     ) -> AnyPublisher<T, Error> {
         guard let url = URL(string: urlString) else {
-            return Fail(error: NetworkError.invalidRequest)
-                .eraseToAnyPublisher()
+            return Fail(error: NetworkError.invalidRequest).eraseToAnyPublisher()
         }
         
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         request.httpBody = body
-        headers.forEach { key, value in
-            request.setValue(value, forHTTPHeaderField: key)
-        }
+        headers.forEach { request.setValue($1, forHTTPHeaderField: $0) }
 
-        return URLSession
-            .shared
+        return URLSession.shared
             .dataTaskPublisher(for: request)
+            .mapError { NetworkError.requestFailed($0) }
             .map(\.data)
             .decode(type: T.self, decoder: JSONDecoder())
+            .mapError { error in
+                error is DecodingError ? NetworkError.decodingFailed(error) : error
+            }
             .eraseToAnyPublisher()
     }
 }

@@ -8,52 +8,51 @@
 import Combine
 import UIKit
 
+// MARK: - DogListViewModel
 class DogListViewModel {
-
+    // MARK: - Published Properties
     @Published var breeds: [Breed] = []
     @Published var errorMessage: String?
+    
+    // MARK: - Private Properties
     private var cancellables = Set<AnyCancellable>()
-
-    private let favoritesStream: FavoritesStreaming
+    private let breedsStream: BreedsStreaming
     private let breedService: BreedService
-
-    init(
-        breedService: BreedService,
-        favoritesStream: FavoritesStreaming) {
+    
+    // MARK: - Initialization
+    init(breedService: BreedService, breedsStream: BreedsStreaming) {
         self.breedService = breedService
-        self.favoritesStream = favoritesStream
+        self.breedsStream = breedsStream
         subscribeToStream()
     }
     
+    // MARK: - Public Methods
     func updateFavoriteBreed(_ breed: String, _ isFavorite: Bool) {
-        favoritesStream.updateFavoriteBreed(breed, isFavorite)
+        breedsStream.updateFavoriteBreed(breed, isFavorite)
     }
     
     func updateFavoriteSubBreed(_ breed: String, _ subBreed: String, _ isFavorite: Bool) {
-        favoritesStream.updateFavoriteSubBreed(breed, subBreed, isFavorite)
+        breedsStream.updateFavoriteSubBreed(breed, subBreed, isFavorite)
     }
     
     func fetchList() {
-        breedService
-            .fetchList()
+        breedService.fetchList()
             .sink { [weak self] completion in
                 if case .failure(let error) = completion {
                     self?.errorMessage = error.localizedDescription
                 }
             } receiveValue: { [weak self] list in
-                self?.favoritesStream.updateBreeds(list)
+                self?.breedsStream.updateBreeds(list)
             }
             .store(in: &cancellables)
     }
     
-    // MARK: - Private
-
+    // MARK: - Private Methods
     private func subscribeToStream() {
-        Publishers
-            .CombineLatest(favoritesStream.breeds, favoritesStream.favorites)
-            .sink { [weak self] (allBreeds, favoriteBreeds) in
-                    self?.breeds = Breed.combineBreeds(allBreeds: allBreeds, favoriteBreeds: favoriteBreeds)
-                }
+        Publishers.CombineLatest(breedsStream.breeds, breedsStream.favorites)
+            .sink { [weak self] allBreeds, favoriteBreeds in
+                self?.breeds = Breed.combineBreeds(allBreeds: allBreeds, favoriteBreeds: favoriteBreeds)
+            }
             .store(in: &cancellables)
     }
 }

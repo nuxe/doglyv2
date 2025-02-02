@@ -1,5 +1,5 @@
 //
-//  FavoritableTableViewCell.swift
+//  FavoriteHeaderView.swift
 //  DoglyV2
 //
 //  Created by Kush Agrawal on 1/31/25.
@@ -7,14 +7,17 @@
 
 import UIKit
 
-class FavoritableTableViewCell: UITableViewCell {
-    static let reuseIdentifier = "FavoritableTableViewCell"
+class FavoriteHeaderView: UITableViewHeaderFooterView {
+    static let reuseIdentifier = "FavoriteHeaderView"
+    
+    // MARK: - Properties
+    private var item: Favoritable?
+    var didUpdateFavorite: ((Bool) -> Void)?
     
     // MARK: - UI Components
-    private let subBreedLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .subheadline)
-        label.textColor = .secondaryLabel
+        label.font = .preferredFont(forTextStyle: .headline)
         label.adjustsFontForContentSizeCategory = true
         return label
     }()
@@ -24,17 +27,13 @@ class FavoritableTableViewCell: UITableViewCell {
         button.setImage(UIImage(systemName: "heart"), for: .normal)
         button.setImage(UIImage(systemName: "heart.fill"), for: .selected)
         button.addTarget(self, action: #selector(didTapFavorite), for: .touchUpInside)
-        button.accessibilityLabel = "Favorite"
+        button.accessibilityLabel = "Favorite All"
         return button
     }()
     
-    // MARK: - Properties
-    private var subBreed: SubBreed?
-    var didUpdateFavorite: ((Bool) -> ())? = nil
-
-    // MARK: - Lifecycle
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    // MARK: - Initialization
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
         setupViews()
     }
     
@@ -44,23 +43,24 @@ class FavoritableTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        subBreed = nil
-        subBreedLabel.text = nil
+        item = nil
+        titleLabel.text = nil
         favoriteButton.isSelected = false
         didUpdateFavorite = nil
     }
     
     // MARK: - Configuration
-    func configure(subBreed: SubBreed) {
-        self.subBreed = subBreed
-        subBreedLabel.text = subBreed.name.capitalized
-        favoriteButton.isSelected = subBreed.isFavorite
+    func configure(with item: Favoritable) {
+        self.item = item
+        titleLabel.text = item.name
+        favoriteButton.isSelected = item.isFavorite
     }
     
     // MARK: - Private Methods
     private func setupViews() {
-        selectionStyle = .none
-        let stackView = UIStackView(arrangedSubviews: [subBreedLabel, favoriteButton])
+        contentView.backgroundColor = .systemBackground
+        
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, favoriteButton])
         stackView.spacing = 8
         stackView.alignment = .center
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -68,15 +68,15 @@ class FavoritableTableViewCell: UITableViewCell {
         contentView.addSubview(stackView)
         
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 32),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ])
     }
-    
+
     @objc private func didTapFavorite() {
-        guard let subBreed = subBreed else { return }
-        didUpdateFavorite?(!subBreed.isFavorite)
+        guard let item = item else { return }
+        didUpdateFavorite?(!item.isFavorite)
     }
 }

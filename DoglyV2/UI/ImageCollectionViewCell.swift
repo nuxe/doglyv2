@@ -7,34 +7,38 @@
 
 import SDWebImage
 
+// MARK: - ImageCollectionViewCell
 class ImageCollectionViewCell: UICollectionViewCell {
     
-    static let reuseIdentifier: String = "ImageCollectionViewCell"
+    static let reuseIdentifier = "ImageCollectionViewCell"
     
-    lazy var imageView = {
-        let view = UIImageView(frame: .zero)
+    // MARK: - UI Elements
+    lazy var imageView: UIImageView = {
+        let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.contentMode = .scaleAspectFit
         view.clipsToBounds = true
         return view
     }()
     
+    // MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.setupImageView()
+        setupImageView()
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Setup
     private func setupImageView() {
         addSubview(imageView)
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: topAnchor),
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            imageView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

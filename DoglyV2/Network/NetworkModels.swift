@@ -1,5 +1,5 @@
 //
-//  Breed.swift
+//  NetworkModels.swift
 //  DoglyV2
 //
 //  Created by Kush Agrawal on 1/30/25.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-// Network models
+// MARK: - Network Models
 struct BreedList: Decodable {
     let message: [String: [String]]
 }
