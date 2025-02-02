@@ -16,7 +16,7 @@ protocol FavoritesStreaming {
     // Favorites
     var favorites: AnyPublisher<[Breed], Never> { get }
     func updateFavoriteBreed(_ breed: String, _ isFavorite: Bool)
-    func updateFavoriteSubBreed(_ subBreed: String, _ isFavorite: Bool)
+    func updateFavoriteSubBreed(_ breed: String,_ subBreed: String, _ isFavorite: Bool)
 }
 
 class FavoritesStream: FavoritesStreaming {
@@ -73,11 +73,9 @@ class FavoritesStream: FavoritesStreaming {
         favoritesSubject.send(currentFavorites)
     }
     
-    func updateFavoriteSubBreed(_ subBreed: String, _ isFavorite: Bool) {
+    func updateFavoriteSubBreed(_ breed: String,_ subBreed: String, _ isFavorite: Bool) {
         // Find the parent breed from all breeds
-        guard let parentBreed = breedsSubject.value.first(where: { breed in
-            breed.subBreeds.contains { $0.name == subBreed }
-        }) else { return }
+        guard let parentBreed = breedsSubject.value.first(where: { $0.name == breed }) else { return }
 
         var favorites = favoritesSubject.value
 

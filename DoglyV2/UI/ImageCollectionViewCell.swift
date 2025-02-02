@@ -9,6 +9,8 @@ import SDWebImage
 
 class ImageCollectionViewCell: UICollectionViewCell {
     
+    static let reuseIdentifier: String = "ImageCollectionViewCell"
+    
     lazy var imageView = {
         let view = UIImageView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false

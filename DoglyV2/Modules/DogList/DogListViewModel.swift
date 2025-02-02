@@ -29,8 +29,8 @@ class DogListViewModel {
         favoritesStream.updateFavoriteBreed(breed, isFavorite)
     }
     
-    func updateFavoriteSubBreed(_ subBreed: String, _ isFavorite: Bool) {
-        favoritesStream.updateFavoriteSubBreed(subBreed, isFavorite)
+    func updateFavoriteSubBreed(_ breed: String, _ subBreed: String, _ isFavorite: Bool) {
+        favoritesStream.updateFavoriteSubBreed(breed, subBreed, isFavorite)
     }
     
     func fetchList() {

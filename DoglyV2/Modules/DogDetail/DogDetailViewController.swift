@@ -9,25 +9,16 @@ import Combine
 import UIKit
 
 class DogDetailViewController: UIViewController {
-
+    // MARK: - Properties
     private let viewModel: DogDetailViewModel
     private var cancellables = Set<AnyCancellable>()
     
-    private lazy var layout: UICollectionViewFlowLayout = {
-        let layout = UICollectionViewFlowLayout()
-        layout.minimumInteritemSpacing = 5
-        layout.minimumLineSpacing = 10
-        layout.scrollDirection = .vertical
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 2)
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        return layout
-    }()
-    
+    // MARK: - UI Components
     private lazy var collectionView: UICollectionView = {
-        let view = UICollectionView.init(frame: .zero, collectionViewLayout: layout)
+        let view = UICollectionView(frame: .zero, collectionViewLayout: makeLayout())
         view.translatesAutoresizingMaskIntoConstraints = false
         view.dataSource = self
-        view.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: "\(ImageCollectionViewCell.self)")
+        view.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.reuseIdentifier)
         view.refreshControl = refreshControl
         return view
     }()
@@ -39,6 +30,7 @@ class DogDetailViewController: UIViewController {
         return control
     }()
     
+    // MARK: - Lifecycle
     init(_ viewModel: DogDetailViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -56,13 +48,22 @@ class DogDetailViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        // TODO: Refetch images
+        refresh()
+    }
+
+    // MARK: - Setup
+    private func makeLayout() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumInteritemSpacing = 5
+        layout.minimumLineSpacing = 10
+        layout.scrollDirection = .vertical
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 2)
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        return layout
     }
 
     private func setupSubviews() {
         view.addSubview(collectionView)
-        
-        // Apply constraints
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -71,25 +72,27 @@ class DogDetailViewController: UIViewController {
         ])
     }
     
+    // MARK: - Data Binding
     private func bindViewModel() {
         viewModel.$breedImages
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.collectionView.reloadData()
-                self?.refreshControl.endRefreshing()
+                self?.updateUI()
             }
             .store(in: &cancellables)
 
         viewModel.$errorMessage
             .receive(on: DispatchQueue.main)
             .sink { [weak self] error in
-                self?.collectionView.reloadData()
-                self?.refreshControl.endRefreshing()
-                if let error {
-                    self?.showError(error)
-                }
+                self?.updateUI()
+                if let error { self?.showError(error) }
             }
             .store(in: &cancellables)
+    }
+    
+    private func updateUI() {
+        collectionView.reloadData()
+        refreshControl.endRefreshing()
     }
     
     private func showError(_ message: String) {
@@ -98,26 +101,23 @@ class DogDetailViewController: UIViewController {
         present(alert, animated: true)
     }
     
-    @objc
-    private func refresh() {
-        // TODO: Refresh Images
+    @objc private func refresh() {
+        viewModel.refetch()
     }
 }
 
+// MARK: - UICollectionViewDataSource
 extension DogDetailViewController: UICollectionViewDataSource {
-    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-            return 1
+        1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.breedImages.count
+        viewModel.breedImages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ImageCollectionViewCell.self)", for: indexPath) as? ImageCollectionViewCell else {
-            return ImageCollectionViewCell(frame: .zero)
-        }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ImageCollectionViewCell.self)", for: indexPath) as? ImageCollectionViewCell ?? ImageCollectionViewCell(frame: .zero)
         let url = viewModel.breedImages[indexPath.row]
         cell.imageView.sd_setImage(with: url)
         return cell

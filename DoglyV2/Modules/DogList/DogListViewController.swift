@@ -114,7 +114,7 @@ extension DogListViewController: UITableViewDataSource {
         cell.configure(subBreed: subBreed)
         
         cell.didUpdateFavorite = { [weak self] isFavorite in
-            self?.viewModel.updateFavoriteSubBreed(subBreed.name, isFavorite)
+            self?.viewModel.updateFavoriteSubBreed(breed.name, subBreed.name, isFavorite)
         }
 
         return cell
