@@ -63,17 +63,22 @@ The project follows MVVM architecture with the following key components:
 - **Tradeoff**: Simpler implementation vs scalability for larger datasets
 
 ### 2. UI Implementation
-- Used programmatic UI instead of Storyboards/XIBs  
-- **Benefit**: Better version control and maintainability  
-- **Tradeoff**: More verbose initial setup
+- Used UIKit instead of SwiftUI or Storyboards/XIBs  
+- **Benefit**: UIKit is flexible and can be used to create complex UI designs
+- **Tradeoff**: UIKit can be more verbose compared to SwiftUI for simpler designs
 
-### 3. Testing Approach
-- Extensive protocol usage enables better mock objects  
-- **Tradeoff**: Additional protocol maintenance vs improved testability
-
-### 4. Architecture pattern
+### 3. Architecture pattern
 - MVVM architecture pattern is used to achieve separation of concerns and better testability
-- **Tradeoff**: Could have used VIPER architecture for better testability but MVVM is more suitable for this project
+- **Tradeoff**: Could have used something like VIPER, which will scale better for larger 
+applications, MVVM is more suitable for this size of project
+
+### 4. Dependency injection
+- Used standard constructor injection for dependencies
+- **Tradeoff**: Could have used a dependency injection framework like Swinject, but given the size/scope of the project, simple constructor injection is a reasonable choice 
+
+### 5. Testing
+ - Extensive use of protocols to enable easy mocking
+ - **Tradeoff**: Current mocks are manually created, could use a framework to autogenerate them
 
 ## License
 This code is released under the MIT license
