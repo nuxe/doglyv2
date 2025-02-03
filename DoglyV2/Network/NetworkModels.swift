@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - Network Models
-struct BreedList: Decodable {
+struct BreedList: Decodable, Equatable {
     let message: [String: [String]]
 }
 

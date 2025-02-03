@@ -11,7 +11,7 @@ protocol Favoritable {
 }
 
 // MARK: - Models
-struct Breed: Codable, Favoritable {
+struct Breed: Codable, Favoritable, Equatable {
 
     // MARK: - Favoritable
     var name: String

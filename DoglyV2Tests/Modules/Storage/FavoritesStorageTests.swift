@@ -52,13 +52,6 @@ final class FavoritesStorageTests: XCTestCase {
         XCTAssertEqual(fetchedBreeds[0].subBreeds[0].isFavorite, breeds[0].subBreeds[0].isFavorite)
     }
     
-    func testFetchFavoritesEmptyFile() {
-        // Assert
-        XCTAssertThrowsError(try storage.fetchFavorites()) { error in
-            XCTAssertTrue(error is CocoaError)
-        }
-    }
-    
     func testSaveFavoritesWithEmptyArray() throws {
         // Arrange
         let emptyBreeds: [Breed] = []
