@@ -8,7 +8,16 @@
 import Combine
 import UIKit
 
-class DogDetailViewModel {
+protocol DogDetailViewModelProtocol {
+    // Published properties
+    var breedImages: [URL] { get }
+    var errorMessage: String? { get }
+    
+    // Methods
+    func refetch()
+}
+
+class DogDetailViewModel: DogDetailViewModelProtocol {
 
     // MARK: - Published Properties
     @Published var breedImages: [URL] = []
@@ -18,13 +27,13 @@ class DogDetailViewModel {
     private var favorites: [Breed] = []
     private var cancellables = Set<AnyCancellable>()
     private var imageCancellables = Set<AnyCancellable>()
-    private let breedService: BreedService
-    private let breedsStream: BreedsStreaming
+    private let breedService: BreedServiceProtocol
+    private let breedsStream: BreedsStreamProtocol
 
     // MARK: - Lifecycle
     init(
-        breedService: BreedService,
-        breedsStream: BreedsStreaming
+        breedService: BreedServiceProtocol,
+        breedsStream: BreedsStreamProtocol
     ) {
         self.breedService = breedService
         self.breedsStream = breedsStream
@@ -85,8 +94,8 @@ class DogDetailViewModel {
     
     private func fetchBreedImages(_ breed: String, subBreed: String? = nil) -> AnyPublisher<[URL], Never> {
         let publisher = subBreed != nil ?
-            breedService.fetchImages(breed, subBreed!) :
-            breedService.fetchImages(breed)
+            breedService.fetchImages(breed, subBreed!, 1) :
+            breedService.fetchImages(breed, nil, 1)
         
         return publisher
             .map(\.message)

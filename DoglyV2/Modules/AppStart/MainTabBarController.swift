@@ -15,8 +15,10 @@ class MainTabBarController: UITabBarController {
     
     private func setupTabs() {
         // Dependecies
-        let breedStream: BreedsStreaming = BreedsStream()
-        let breedService: BreedService = BreedService()
+        let favoritesStorage: FavoritesStorageProtocol = FavoritesStorage()
+        let breedStream: BreedsStreamProtocol = BreedsStream(favoritesStorage: favoritesStorage)
+        let networkClient: NetworkClientProtocol = NetworkClient()
+        let breedService: BreedServiceProtocol = BreedService(networkClient: networkClient)
 
         // List
         let dogListViewModel = DogListViewModel(breedService: breedService, breedsStream: breedStream)

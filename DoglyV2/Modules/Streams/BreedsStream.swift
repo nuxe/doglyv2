@@ -8,7 +8,7 @@
 import Combine
 import SwiftUICore
 
-protocol BreedsStreaming {
+protocol BreedsStreamProtocol {
     // Breeds
     var breeds: AnyPublisher<[Breed], Never> { get }
     func updateBreeds(_ list: BreedList)
@@ -19,11 +19,18 @@ protocol BreedsStreaming {
     func updateFavoriteSubBreed(_ breed: String, _ subBreed: String, _ isFavorite: Bool)
 }
 
-class BreedsStream: BreedsStreaming {
+class BreedsStream: BreedsStreamProtocol {
     
     // MARK: - Properties
     private let breedsSubject = CurrentValueSubject<[Breed], Never>([])
     private let favoritesSubject = CurrentValueSubject<[Breed], Never>([])
+    private let favoritesStorage: FavoritesStorageProtocol
+    
+    // MARK: - Init
+    init(favoritesStorage: FavoritesStorageProtocol) {
+        self.favoritesStorage = favoritesStorage
+        fetchFavoritesFromStorage()
+    }
     
     // MARK: - Breeds
     var breeds: AnyPublisher<[Breed], Never> {
@@ -66,9 +73,22 @@ class BreedsStream: BreedsStreaming {
             removeBreedFromFavorites(breed, from: &currentFavorites)
         }
         
-        favoritesSubject.send(currentFavorites)
+        updateFavoritesStreamAndStorage(currentFavorites)
+    }
+
+    func updateFavoriteSubBreed(_ breed: String, _ subBreed: String, _ isFavorite: Bool) {
+        guard let parentBreed = breedsSubject.value.first(where: { $0.name == breed }) else { return }
+        var favorites = favoritesSubject.value
+        var updatedBreed = favorites.first(where: { $0.name == parentBreed.name }) ?? parentBreed
+        
+        updateSubBreedFavoriteStatus(in: &updatedBreed, subBreedName: subBreed, isFavorite: isFavorite)
+        updateFavoritesList(&favorites, with: updatedBreed)
+        updateFavoritesStreamAndStorage(favorites)
     }
     
+    // MARK: - Private
+
+    // Breeds
     private func addBreedToFavorites(_ breedName: String, to favorites: inout [Breed]) {
         guard let breedToAdd = breedsSubject.value.first(where: { $0.name == breedName }),
               !favorites.contains(where: { $0.name == breedName && $0.isFavorite }) else { return }
@@ -81,18 +101,9 @@ class BreedsStream: BreedsStreaming {
     private func removeBreedFromFavorites(_ breedName: String, from favorites: inout [Breed]) {
         favorites.removeAll(where: { $0.name == breedName })
     }
+
     
-    func updateFavoriteSubBreed(_ breed: String, _ subBreed: String, _ isFavorite: Bool) {
-        guard let parentBreed = breedsSubject.value.first(where: { $0.name == breed }) else { return }
-        var favorites = favoritesSubject.value
-        var updatedBreed = favorites.first(where: { $0.name == parentBreed.name }) ?? parentBreed
-        
-        updateSubBreedFavoriteStatus(in: &updatedBreed, subBreedName: subBreed, isFavorite: isFavorite)
-        updateFavoritesList(&favorites, with: updatedBreed)
-        
-        favoritesSubject.send(favorites)
-    }
-    
+    // SubBreeds
     private func updateSubBreedFavoriteStatus(in breed: inout Breed, subBreedName: String, isFavorite: Bool) {
         breed.subBreeds = breed.subBreeds.map { sub in
             var updated = sub
@@ -112,6 +123,27 @@ class BreedsStream: BreedsStreaming {
             }
         } else {
             favorites.removeAll(where: { $0.name == updatedBreed.name })
+        }
+    }
+    
+    // Stream and persistence
+    private func updateFavoritesStreamAndStorage(_ favorites: [Breed]) {
+        favoritesSubject.send(favorites)
+
+        do {
+            try favoritesStorage.saveFavorites(favorites)
+        } catch {
+            // TODO - Add proper error logging
+            print("Failed to save to storage \(error.localizedDescription)")
+        }
+    }
+    
+    private func fetchFavoritesFromStorage() {
+        do {
+            let favorites = try favoritesStorage.fetchFavorites()
+            favoritesSubject.send(favorites)
+        } catch {
+            print("Failed to fetch from storage \(error.localizedDescription)")
         }
     }
 }

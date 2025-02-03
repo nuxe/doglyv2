@@ -8,19 +8,31 @@
 import Combine
 import UIKit
 
+// MARK: - DogListViewModelProtocol
+protocol DogListViewModelProtocol {
+    // Published properties
+    var breeds: [Breed] { get }
+    var errorMessage: String? { get }
+    
+    // Methods
+    func updateFavoriteBreed(_ breed: String, _ isFavorite: Bool)
+    func updateFavoriteSubBreed(_ breed: String, _ subBreed: String, _ isFavorite: Bool)
+    func fetchList()
+}
+
 // MARK: - DogListViewModel
-class DogListViewModel {
+class DogListViewModel: DogListViewModelProtocol {
     // MARK: - Published Properties
     @Published var breeds: [Breed] = []
     @Published var errorMessage: String?
     
     // MARK: - Private Properties
     private var cancellables = Set<AnyCancellable>()
-    private let breedsStream: BreedsStreaming
-    private let breedService: BreedService
+    private let breedsStream: BreedsStreamProtocol
+    private let breedService: BreedServiceProtocol
     
     // MARK: - Initialization
-    init(breedService: BreedService, breedsStream: BreedsStreaming) {
+    init(breedService: BreedServiceProtocol, breedsStream: BreedsStreamProtocol) {
         self.breedService = breedService
         self.breedsStream = breedsStream
         subscribeToStream()

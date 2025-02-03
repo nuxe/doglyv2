@@ -21,16 +21,21 @@ enum HTTPMethod: String {
     case GET, POST, DELETE, PUT
 }
 
+// MARK: - NetworkClientProtocol
+protocol NetworkClientProtocol {
+    func fetch<T: Decodable>(_ urlString: String,
+                             _ method: HTTPMethod,
+                             _ body: Data?,
+                             _ headers: [String: String]) -> AnyPublisher<T, Error>
+}
+
 // MARK: - NetworkClient
-final class NetworkClient {
-    static let shared = NetworkClient()
-    private init() {}
+final class NetworkClient: NetworkClientProtocol {
     
-    func fetch<T: Decodable>(
-        urlString: String,
-        method: HTTPMethod = .GET,
-        body: Data? = nil,
-        headers: [String: String] = [:]
+    func fetch<T: Decodable>(_ urlString: String,
+                             _ method: HTTPMethod = .GET,
+                             _ body: Data? = nil,
+                             _ headers: [String: String] = [:]
     ) -> AnyPublisher<T, Error> {
         guard let url = URL(string: urlString) else {
             return Fail(error: NetworkError.invalidRequest).eraseToAnyPublisher()

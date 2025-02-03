@@ -11,7 +11,7 @@ protocol Favoritable {
 }
 
 // MARK: - Models
-struct Breed: Hashable, Favoritable {
+struct Breed: Codable, Favoritable {
 
     // MARK: - Favoritable
     var name: String
@@ -28,7 +28,7 @@ struct Breed: Hashable, Favoritable {
     var subBreeds: [SubBreed]
 }
 
-struct SubBreed: Comparable, Hashable, Favoritable {
+struct SubBreed: Codable, Comparable, Favoritable {
     // MARK: - Favoritable
     let name: String
     var isFavorite: Bool
