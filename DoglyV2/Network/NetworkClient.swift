@@ -26,12 +26,34 @@ protocol NetworkClientProtocol {
     func fetch<T: Decodable>(_ urlString: String,
                              _ method: HTTPMethod,
                              _ body: Data?,
-                             _ headers: [String: String]) -> AnyPublisher<T, Error>
+                             _ headers: [String: String]) async throws -> T
 }
 
 // MARK: - NetworkClient
 final class NetworkClient: NetworkClientProtocol {
     
+    func fetch<T: Decodable>(_ urlString: String,
+                             _ method: HTTPMethod = .GET,
+                             _ body: Data? = nil,
+                             _ headers: [String: String] = [:]
+    ) async throws -> T {
+        guard let url = URL(string: urlString) else {
+            throw NetworkError.invalidRequest
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = method.rawValue
+        request.httpBody = body
+        headers.forEach { key, value in
+            request.setValue(value, forHTTPHeaderField: key)
+        }
+        
+        let (data, result) = try await URLSession.shared.data(for: request)
+        let decoded = try JSONDecoder().decode(T.self, from: data)
+
+        return decoded
+    }
+        
     func fetch<T: Decodable>(_ urlString: String,
                              _ method: HTTPMethod = .GET,
                              _ body: Data? = nil,
