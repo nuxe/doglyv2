@@ -26,7 +26,6 @@ class DogDetailViewModel: DogDetailViewModelProtocol {
     // MARK: - Private Properties
     private var favorites: [Breed] = []
     private var cancellables = Set<AnyCancellable>()
-    private var imageCancellables = Set<AnyCancellable>()
     private let breedService: BreedServiceProtocol
     private let breedsStream: BreedsStreamProtocol
     private var currentFetchTask: Task<Void, Never>?
