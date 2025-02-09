@@ -13,9 +13,14 @@ class MockBreedService: BreedServiceProtocol {
     var fetchListCallCount = 0
     var fetchListResult: Result<BreedList, Error> = .success(BreedList(message: [:]))
     
-    func fetchList() -> AnyPublisher<BreedList, Error> {
+    func fetchList() async throws -> BreedList {
         fetchListCallCount += 1
-        return fetchListResult.publisher.eraseToAnyPublisher()
+        switch fetchListResult {
+        case .success(let breedList):
+            return breedList
+        case .failure(let error):
+            throw error
+        }
     }
     
     var fetchImagesCallCount = 0
@@ -24,11 +29,17 @@ class MockBreedService: BreedServiceProtocol {
     var lastCount: Int?
     var fetchImagesResult: Result<BreedImageList, Error> = .success(BreedImageList(message: []))
     
-    func fetchImages(_ breed: String, _ subbreed: String?, _ count: Int) -> AnyPublisher<BreedImageList, Error> {
+    func fetchImages(_ breed: String, _ subbreed: String?, _ count: Int) async throws -> BreedImageList {
         fetchImagesCallCount += 1
         lastBreed = breed
         lastSubBreed = subbreed
         lastCount = count
-        return fetchImagesResult.publisher.eraseToAnyPublisher()
+        
+        switch fetchImagesResult {
+        case .success(let imageList):
+            return imageList
+        case .failure(let error):
+            throw error
+        }
     }
 }

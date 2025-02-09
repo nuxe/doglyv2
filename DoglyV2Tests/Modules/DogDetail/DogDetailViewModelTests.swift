@@ -41,7 +41,7 @@ final class DogDetailViewModelTests: XCTestCase {
         XCTAssertEqual(sut.breedImages, [])
     }
     
-    func test_refetch_fetchesImagesForFavoriteBreeds() {
+    func test_refetch_fetchesImagesForFavoriteBreeds() async {
         // Given
         let testURL = URL(string: "https://example.com/dog.jpg")!
         let favorites = [Breed(name: "test", isFavorite: true, subBreeds: [])]
@@ -49,16 +49,17 @@ final class DogDetailViewModelTests: XCTestCase {
         breedsStream.favoritesSubject.send(favorites)
         
         // When
-        sut.refetch()
+        await sut.refetch()
         
         // Then
         XCTAssertEqual(breedService.fetchImagesCallCount, 1)
         XCTAssertEqual(breedService.lastBreed, "test")
         XCTAssertEqual(breedService.lastCount, 1)
         XCTAssertNil(breedService.lastSubBreed)
+        XCTAssertEqual(sut.breedImages, [testURL])
     }
     
-    func test_fetchImages_handlesSubBreeds() {
+    func test_fetchImages_handlesSubBreeds() async {
         // Given
         let testURL = URL(string: "https://example.com/dog.jpg")!
         let subBreed = SubBreed(name: "sub", isFavorite: true)
@@ -67,16 +68,17 @@ final class DogDetailViewModelTests: XCTestCase {
         breedsStream.favoritesSubject.send([breed])
         
         // When
-        sut.refetch()
+        await sut.refetch()
         
         // Then
         XCTAssertEqual(breedService.fetchImagesCallCount, 1)
         XCTAssertEqual(breedService.lastBreed, "test")
         XCTAssertEqual(breedService.lastSubBreed, "sub")
         XCTAssertEqual(breedService.lastCount, 1)
+        XCTAssertEqual(sut.breedImages, [testURL])
     }
     
-    func test_fetchImages_handlesErrors() {
+    func test_fetchImages_handlesErrors() async {
         // Given
         struct TestError: Error {}
         let favorites = [Breed(name: "test", isFavorite: true, subBreeds: [])]
@@ -84,9 +86,10 @@ final class DogDetailViewModelTests: XCTestCase {
         breedsStream.favoritesSubject.send(favorites)
         
         // When
-        sut.refetch()
+        await sut.refetch()
         
         // Then
         XCTAssertEqual(sut.breedImages, [])
+        XCTAssertNotNil(sut.errorMessage)
     }
 }

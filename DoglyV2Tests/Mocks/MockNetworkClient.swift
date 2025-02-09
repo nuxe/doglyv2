@@ -5,7 +5,6 @@
 //  Created by Kush Agrawal on 1/30/25.
 //
 
-import Combine
 import Foundation
 import Testing
 @testable import DoglyV2
@@ -21,16 +20,21 @@ class MockNetworkClient: NetworkClientProtocol {
     func fetch<T: Decodable>(_ urlString: String,
                             _ method: HTTPMethod,
                             _ body: Data?,
-                            _ headers: [String: String]) -> AnyPublisher<T, Error> {
+                            _ headers: [String: String]) async throws -> T {
         fetchCallCount += 1
         lastURL = urlString
         lastMethod = method
         lastBody = body
         lastHeaders = headers
         
-        return fetchResult
-            .map { $0 as! T }
-            .publisher
-            .eraseToAnyPublisher()
+        switch fetchResult {
+        case .success(let value):
+            guard let result = value as? T else {
+                throw NetworkError.decodingFailed(NSError(domain: "Mock", code: -1, userInfo: [NSLocalizedDescriptionKey: "Could not cast mock result to expected type"]))
+            }
+            return result
+        case .failure(let error):
+            throw error
+        }
     }
 }
