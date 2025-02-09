@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Combine
 
 // MARK: - Error Types
 enum NetworkError: Error {
@@ -26,7 +25,7 @@ protocol NetworkClientProtocol {
     func fetch<T: Decodable>(_ urlString: String,
                              _ method: HTTPMethod,
                              _ body: Data?,
-                             _ headers: [String: String]) -> AnyPublisher<T, Error>
+                             _ headers: [String: String]) async throws -> T
 }
 
 // MARK: - NetworkClient
@@ -36,24 +35,21 @@ final class NetworkClient: NetworkClientProtocol {
                              _ method: HTTPMethod = .GET,
                              _ body: Data? = nil,
                              _ headers: [String: String] = [:]
-    ) -> AnyPublisher<T, Error> {
+    ) async throws -> T {
         guard let url = URL(string: urlString) else {
-            return Fail(error: NetworkError.invalidRequest).eraseToAnyPublisher()
+            throw NetworkError.invalidRequest
         }
-        
+
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         request.httpBody = body
-        headers.forEach { request.setValue($1, forHTTPHeaderField: $0) }
+        headers.forEach { key, value in
+            request.setValue(value, forHTTPHeaderField: key)
+        }
+        
+        let (data, _) = try await URLSession.shared.data(for: request)
+        let decoded = try JSONDecoder().decode(T.self, from: data)
 
-        return URLSession.shared
-            .dataTaskPublisher(for: request)
-            .mapError { NetworkError.requestFailed($0) }
-            .map(\.data)
-            .decode(type: T.self, decoder: JSONDecoder())
-            .mapError { error in
-                error is DecodingError ? NetworkError.decodingFailed(error) : error
-            }
-            .eraseToAnyPublisher()
+        return decoded
     }
 }

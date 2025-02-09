@@ -17,7 +17,7 @@ protocol DogListViewModelProtocol {
     // Methods
     func updateFavoriteBreed(_ breed: String, _ isFavorite: Bool)
     func updateFavoriteSubBreed(_ breed: String, _ subBreed: String, _ isFavorite: Bool)
-    func fetchList()
+    func fetchList() async
 }
 
 // MARK: - DogListViewModel
@@ -47,16 +47,13 @@ class DogListViewModel: DogListViewModelProtocol {
         breedsStream.updateFavoriteSubBreed(breed, subBreed, isFavorite)
     }
     
-    func fetchList() {
-        breedService.fetchList()
-            .sink { [weak self] completion in
-                if case .failure(let error) = completion {
-                    self?.errorMessage = error.localizedDescription
-                }
-            } receiveValue: { [weak self] list in
-                self?.breedsStream.updateBreeds(list)
-            }
-            .store(in: &cancellables)
+    func fetchList() async {
+        do {
+            let result = try await breedService.fetchList()
+            breedsStream.updateBreeds(result)
+        } catch {
+            errorMessage = error.localizedDescription
+        }
     }
     
     // MARK: - Private Methods

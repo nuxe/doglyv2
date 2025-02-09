@@ -30,13 +30,13 @@ final class DogListViewModelTests: XCTestCase {
     }
     
     // MARK: - Tests
-    func test_fetchList_success() {
+    func test_fetchList_success() async {
         // Given
         let breedList = BreedList(message: ["breed1": [], "breed2": ["sub1", "sub2"]])
         mockBreedService.fetchListResult = .success(breedList)
         
         // When
-        sut.fetchList()
+        await sut.fetchList()
         
         // Then
         XCTAssertEqual(mockBreedService.fetchListCallCount, 1)
@@ -45,13 +45,13 @@ final class DogListViewModelTests: XCTestCase {
         XCTAssertNil(sut.errorMessage)
     }
     
-    func test_fetchList_failure() {
+    func test_fetchList_failure() async {
         // Given
         let error = NSError(domain: "test", code: 1, userInfo: [NSLocalizedDescriptionKey: "Test error"])
         mockBreedService.fetchListResult = .failure(error)
         
         // When
-        sut.fetchList()
+        await sut.fetchList()
         
         // Then
         XCTAssertEqual(mockBreedService.fetchListCallCount, 1)

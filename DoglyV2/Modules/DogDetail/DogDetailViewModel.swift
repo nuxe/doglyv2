@@ -14,7 +14,7 @@ protocol DogDetailViewModelProtocol {
     var errorMessage: String? { get }
     
     // Methods
-    func refetch()
+    func refetch() async
 }
 
 class DogDetailViewModel: DogDetailViewModelProtocol {
@@ -26,9 +26,9 @@ class DogDetailViewModel: DogDetailViewModelProtocol {
     // MARK: - Private Properties
     private var favorites: [Breed] = []
     private var cancellables = Set<AnyCancellable>()
-    private var imageCancellables = Set<AnyCancellable>()
     private let breedService: BreedServiceProtocol
     private let breedsStream: BreedsStreamProtocol
+    private var currentFetchTask: Task<Void, Never>?
 
     // MARK: - Lifecycle
     init(
@@ -41,8 +41,12 @@ class DogDetailViewModel: DogDetailViewModelProtocol {
     }
     
     // MARK: - Public Methods
-    func refetch() {
-        fetchForFavorites(favorites)
+    func refetch() async {
+        currentFetchTask?.cancel()
+        currentFetchTask = Task { [weak self] in
+            await self?.fetchForFavorites(self?.favorites ?? [])
+        }
+        await currentFetchTask?.value
     }
     
     // MARK: - Private Methods
@@ -58,51 +62,59 @@ class DogDetailViewModel: DogDetailViewModelProtocol {
             .store(in: &cancellables)
     }
     
-    private func fetchForFavorites(_ favorites: [Breed]) {
-        imageCancellables.removeAll()
+    private func fetchForFavorites(_ favorites: [Breed]) async {
+        guard !Task.isCancelled else { return }
         
-        let publishers = favorites.map { breed in
-            fetchImagesPublisher(for: breed)
+        let urls: [URL] = await withTaskGroup(of: [URL].self) { [weak self] taskGroup in
+            guard let self else { return [] }
+            
+            for breed in favorites {
+                taskGroup.addTask { await self.fetchImages(for: breed) }
+            }
+            
+            var allUrls = [URL]()
+            for await breedUrls in taskGroup {
+                allUrls.append(contentsOf: breedUrls)
+            }
+            return allUrls
         }
         
-        Publishers.MergeMany(publishers)
-            .collect()
-            .map { $0.flatMap { $0 } }
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] images in
-                self?.breedImages = images
-            }
-            .store(in: &imageCancellables)
+        breedImages = urls
     }
     
-    private func fetchImagesPublisher(for breed: Breed) -> AnyPublisher<[URL], Never> {
+    private func fetchImages(for breed: Breed) async -> [URL] {
         if breed.subBreeds.isEmpty || breed.isFavorite {
-            return fetchBreedImages(breed.name)
+            return await fetchBreedImage(breed.name)
         }
         
-        let subBreedPublishers = breed.subBreeds
-            .filter { $0.isFavorite }
-            .compactMap { subBreed in
-                fetchBreedImages(breed.name, subBreed: subBreed.name)
-            }
+        let favoritedSubBreeds = breed.subBreeds.filter { $0.isFavorite }
         
-        return Publishers.MergeMany(subBreedPublishers)
-            .collect()
-            .map { $0.flatMap { $0 } }
-            .eraseToAnyPublisher()
+        return await withTaskGroup(of: [URL].self) { [weak self] taskGroup in
+            guard let self else { return [] }
+            
+            for subBreed in favoritedSubBreeds {
+                taskGroup.addTask {
+                    await self.fetchBreedImage(breed.name, subBreed: subBreed.name)
+                }
+            }
+            
+            var allUrls = [URL]()
+            for await subBreedUrls in taskGroup {
+                allUrls.append(contentsOf: subBreedUrls)
+            }
+            return allUrls
+        }
     }
     
-    private func fetchBreedImages(_ breed: String, subBreed: String? = nil) -> AnyPublisher<[URL], Never> {
-        let publisher = subBreed != nil ?
-            breedService.fetchImages(breed, subBreed!, 1) :
-            breedService.fetchImages(breed, nil, 1)
-        
-        return publisher
-            .map(\.message)
-            .catch { error -> AnyPublisher<[URL], Never> in
-                print("Error fetching \(breed): \(error)")
-                return Just([]).eraseToAnyPublisher()
-            }
-            .eraseToAnyPublisher()
+    private func fetchBreedImage(_ breed: String, subBreed: String? = nil) async -> [URL] {
+        do {
+            let result: BreedImageList = try await subBreed != nil ?
+                breedService.fetchImages(breed, subBreed!, 1) :
+                breedService.fetchImages(breed, nil, 1)
+            return result.message
+        } catch {
+            errorMessage = "Error fetching \(breed): \(error.localizedDescription)"
+            return []
+        }
     }
 }
