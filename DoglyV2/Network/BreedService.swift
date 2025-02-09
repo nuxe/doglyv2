@@ -11,10 +11,7 @@ import Foundation
 // MARK: - BreedServiceProtocol
 protocol BreedServiceProtocol {
     func fetchList() async throws -> BreedList
-    func fetchImages(_ breed: String,
-                     _ subbreed: String?,
-                     _ count: Int
-    ) async throws -> BreedImageList
+    func fetchImages(_ breed: String, _ subbreed: String?, _ count: Int) async throws -> BreedImageList
 }
 
 // MARK: - BreedService
@@ -33,11 +30,7 @@ class BreedService: BreedServiceProtocol {
         return result
     }
     
-    func fetchImages(
-        _ breed: String,
-        _ subbreed: String? = nil,
-        _ count: Int = 1
-    ) async throws -> BreedImageList {
+    func fetchImages(_ breed: String, _ subbreed: String? = nil, _ count: Int = 1) async throws -> BreedImageList {
         let endpoint = subbreed.map { "breed/\(breed)/\($0)" } ?? "breed/\(breed)"
         
         let result: BreedImageList = try await networkClient.fetch(Self.baseURL + "\(endpoint)/images/random/\(count)", .GET, nil, [:])

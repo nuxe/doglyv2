@@ -60,7 +60,9 @@ class DogListViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.fetchList()
+        Task {
+            await viewModel.fetchList()
+        }
         
         viewModel.$breeds
             .receive(on: DispatchQueue.main)
@@ -92,7 +94,9 @@ class DogListViewController: UIViewController {
     
     @objc
     private func refresh() {
-        viewModel.fetchList()
+        Task {
+            await viewModel.fetchList()
+        }
     }
 }
 

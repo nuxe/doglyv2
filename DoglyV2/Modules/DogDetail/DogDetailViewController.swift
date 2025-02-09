@@ -102,7 +102,9 @@ class DogDetailViewController: UIViewController {
     }
     
     @objc private func refresh() {
-        viewModel.refetch()
+        Task {
+            await viewModel.refetch()
+        }
     }
 }
 
