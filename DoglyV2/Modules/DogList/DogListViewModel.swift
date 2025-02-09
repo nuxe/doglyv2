@@ -54,16 +54,6 @@ class DogListViewModel: DogListViewModelProtocol {
         } catch {
             errorMessage = error.localizedDescription
         }
-        
-//        breedService.fetchList()
-//            .sink { [weak self] completion in
-//                if case .failure(let error) = completion {
-//                    self?.errorMessage = error.localizedDescription
-//                }
-//            } receiveValue: { [weak self] list in
-//                self?.breedsStream.updateBreeds(list)
-//            }
-//            .store(in: &cancellables)
     }
     
     // MARK: - Private Methods

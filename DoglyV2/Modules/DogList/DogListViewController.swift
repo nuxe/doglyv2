@@ -28,7 +28,7 @@ class DogListViewController: UIViewController {
     private lazy var refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
         control.backgroundColor = .gray
-        control.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        control.addTarget(self, action: #selector(fetchList), for: .valueChanged)
         return control
     }()
     
@@ -60,9 +60,7 @@ class DogListViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        Task {
-            await viewModel.fetchList()
-        }
+        fetchList()
         
         viewModel.$breeds
             .receive(on: DispatchQueue.main)
@@ -93,7 +91,7 @@ class DogListViewController: UIViewController {
     }
     
     @objc
-    private func refresh() {
+    private func fetchList() {
         Task {
             await viewModel.fetchList()
         }
