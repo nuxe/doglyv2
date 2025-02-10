@@ -21,7 +21,8 @@ protocol DogListViewModelProtocol {
 }
 
 // MARK: - DogListViewModel
-class DogListViewModel: DogListViewModelProtocol {
+@MainActor
+class DogListViewModel: DogListViewModelProtocol, ObservableObject {
     // MARK: - Published Properties
     @Published var breeds: [Breed] = []
     @Published var errorMessage: String?

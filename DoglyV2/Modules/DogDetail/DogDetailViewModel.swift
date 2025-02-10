@@ -15,9 +15,10 @@ protocol DogDetailViewModelProtocol {
     
     // Methods
     func refetch() async
+    func fetchBreedImage(_ breed: String, subBreed: String?) async -> [URL]
 }
 
-class DogDetailViewModel: DogDetailViewModelProtocol {
+class DogDetailViewModel: DogDetailViewModelProtocol, ObservableObject {
 
     // MARK: - Published Properties
     @Published var breedImages: [URL] = []
@@ -106,7 +107,7 @@ class DogDetailViewModel: DogDetailViewModelProtocol {
         }
     }
     
-    private func fetchBreedImage(_ breed: String, subBreed: String? = nil) async -> [URL] {
+    func fetchBreedImage(_ breed: String, subBreed: String? = nil) async -> [URL] {
         do {
             let result: BreedImageList = try await subBreed != nil ?
                 breedService.fetchImages(breed, subBreed!, 1) :

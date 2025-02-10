@@ -38,16 +38,28 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+				Modules/Suno/workspace.json,
 			);
 			target = 431305BA2D4C13B8001EB1A2 /* DoglyV2 */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		43006B702D59B7B60080ED06 /* Exceptions for "DoglyV2" folder in "Compile Sources" phase from "DoglyV2" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 431305B72D4C13B8001EB1A2 /* Sources */;
+			membershipExceptions = (
+				Modules/Suno/workspace.json,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		431305BD2D4C13B8001EB1A2 /* DoglyV2 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				431305E62D4C13B9001EB1A2 /* Exceptions for "DoglyV2" folder in "DoglyV2" target */,
+				43006B702D59B7B60080ED06 /* Exceptions for "DoglyV2" folder in "Compile Sources" phase from "DoglyV2" target */,
 			);
 			path = DoglyV2;
 			sourceTree = "<group>";

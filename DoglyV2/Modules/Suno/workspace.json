@@ -1,0 +1,24 @@
+{
+    "project_clips": [
+        {
+            "clip": {
+                "id": "35875c74-5aa2-4bec-a86f-d29a10dfacd5",
+                "image_large_url": "https://cdn2.suno.ai/image_large_35875c74-5aa2-4bec-a86f-d29a10dfacd5.jpeg",
+                "major_model_version": "v4",
+                "metadata": {
+                    "prompt": "[Verse]\nGhanta baj gaya alarm ne dhoka diya\nSapno mein uljha main soya rehta",
+                    "gpt_description_prompt": "Bollywood acoustic song about a child getting late for school. Bus is leaving in front of him",
+                    "duration": 153.68
+                },
+                "display_name": "Kush",
+                "avatar_image_url": "https://cdn1.suno.ai/defaultBlue.webp",
+                "reaction": {
+                    "skip_count": 0,
+                    "flagged": false
+                },
+                "title": "Choti Si Umar, Badi Si Kahani",
+                "upvote_count": 0
+            }
+        }
+    ]
+}

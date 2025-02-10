@@ -5,13 +5,17 @@
 //  Created by Kush Agrawal on 1/31/25.
 //
 
+import Foundation
+
 protocol Favoritable {
     var name: String { get }
     var isFavorite: Bool { get }
 }
 
 // MARK: - Models
-struct Breed: Codable, Favoritable, Equatable {
+struct Breed: Codable, Favoritable, Equatable, Identifiable {
+
+    var id = UUID()
 
     // MARK: - Favoritable
     var name: String
@@ -28,7 +32,10 @@ struct Breed: Codable, Favoritable, Equatable {
     var subBreeds: [SubBreed]
 }
 
-struct SubBreed: Codable, Comparable, Favoritable {
+struct SubBreed: Codable, Comparable, Favoritable, Identifiable {
+    
+    var id = UUID()
+
     // MARK: - Favoritable
     let name: String
     var isFavorite: Bool
