@@ -32,6 +32,14 @@ class DogListViewController: UIViewController {
         return control
     }()
     
+    private lazy var emptyStateString: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "No results found"
+        label.isHidden = true
+        return label
+    }()
+    
     // MARK: - Lifecycle
     init(_ viewModel: DogListViewModel) {
         self.viewModel = viewModel
@@ -44,11 +52,21 @@ class DogListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupSearchBar()
         setupSubviews()
         bindViewModel()
     }
 
     // MARK: - Setup
+    
+    private func setupSearchBar() {
+        let search = UISearchController(searchResultsController: nil)
+        search.obscuresBackgroundDuringPresentation = false
+        search.searchBar.placeholder = "Search for your favorite breed"
+        search.searchResultsUpdater = viewModel
+        navigationItem.searchController = search
+    }
+    
     private func setupSubviews() {
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
@@ -57,12 +75,18 @@ class DogListViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+        
+        view.addSubview(emptyStateString)
+        NSLayoutConstraint.activate([
+            emptyStateString.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyStateString.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
     }
     
     private func bindViewModel() {
         fetchList()
         
-        viewModel.$breeds
+        viewModel.$filteredBreeds
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.handleDataUpdate()
@@ -80,6 +104,8 @@ class DogListViewController: UIViewController {
     
     // MARK: - Helper Methods
     private func handleDataUpdate() {
+        emptyStateString.isHidden = !viewModel.filteredBreeds.isEmpty
+        
         tableView.reloadData()
         refreshControl.endRefreshing()
     }
@@ -101,11 +127,11 @@ class DogListViewController: UIViewController {
 // MARK: - UITableViewDataSource
 extension DogListViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        viewModel.breeds.count
+        viewModel.filteredBreeds.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.breeds[section].subBreeds.count
+        viewModel.filteredBreeds[section].subBreeds.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -113,7 +139,7 @@ extension DogListViewController: UITableViewDataSource {
             return FavoritableTableViewCell()
         }
         
-        let breed = viewModel.breeds[indexPath.section]
+        let breed = viewModel.filteredBreeds[indexPath.section]
         let subBreed = breed.subBreeds[indexPath.row]
         
         cell.configure(with: subBreed)
@@ -131,7 +157,7 @@ extension DogListViewController: UITableViewDelegate {
             return FavoriteHeaderView()
         }
         
-        let breedData = viewModel.breeds[section]
+        let breedData = viewModel.filteredBreeds[section]
         header.configure(with: breedData)
         header.didUpdateFavorite = { [weak self] isFavorite in
             self?.viewModel.updateFavoriteBreed(breedData.name, isFavorite)
