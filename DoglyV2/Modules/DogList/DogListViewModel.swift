@@ -11,7 +11,7 @@ import UIKit
 // MARK: - DogListViewModelProtocol
 protocol DogListViewModelProtocol {
     // Published properties
-    var breeds: [Breed] { get }
+    var filteredBreeds: [Breed] { get }
     var errorMessage: String? { get }
     
     // Methods
@@ -21,11 +21,13 @@ protocol DogListViewModelProtocol {
 }
 
 // MARK: - DogListViewModel
-class DogListViewModel: DogListViewModelProtocol {
+class DogListViewModel: NSObject, DogListViewModelProtocol {
     // MARK: - Published Properties
-    @Published var breeds: [Breed] = []
-    @Published var errorMessage: String?
+    private var breeds: [Breed] = []
     
+    @Published var errorMessage: String?
+    @Published var filteredBreeds: [Breed] = []
+        
     // MARK: - Private Properties
     private var cancellables = Set<AnyCancellable>()
     private let breedsStream: BreedsStreamProtocol
@@ -35,6 +37,7 @@ class DogListViewModel: DogListViewModelProtocol {
     init(breedService: BreedServiceProtocol, breedsStream: BreedsStreamProtocol) {
         self.breedService = breedService
         self.breedsStream = breedsStream
+        super.init()
         subscribeToStream()
     }
     
@@ -57,12 +60,43 @@ class DogListViewModel: DogListViewModelProtocol {
     }
     
     // MARK: - Private Methods
+    
     private func subscribeToStream() {
         Publishers.CombineLatest(breedsStream.breeds, breedsStream.favorites)
             .sink { [weak self] allBreeds, favoriteBreeds in
-                self?.breeds = Breed.combineBreeds(allBreeds: allBreeds, favoriteBreeds: favoriteBreeds)
+                let result = Breed.combineBreeds(allBreeds: allBreeds, favoriteBreeds: favoriteBreeds)
+                self?.breeds = result
+                self?.filteredBreeds = result
             }
             .store(in: &cancellables)
     }
 }
 
+extension DogListViewModel: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text?.lowercased(),
+              !searchText.isEmpty else {
+            filteredBreeds = breeds
+            return
+        }
+        
+        filteredBreeds = breeds.compactMap { breed in
+            var result: Breed? = nil
+            
+            if breed.name.hasPrefix(searchText) {
+                // Breed matched
+                result = breed
+            } else {
+                // SubBreed matching
+                let subBreeds = breed.subBreeds.filter { subBreed in
+                    return subBreed.name.hasPrefix(searchText)
+                }
+                if !subBreeds.isEmpty {
+                    result = Breed(name: breed.name, isFavorite: breed.isFavorite, subBreeds: subBreeds)
+                }
+            }
+            
+            return result
+        }
+    }
+}
