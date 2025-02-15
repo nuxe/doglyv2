@@ -95,8 +95,45 @@ final class DogListViewModelTests: XCTestCase {
         mockBreedsStream.favoritesSubject.send(favoriteBreeds)
         
         // Then
-        XCTAssertEqual(sut.breeds.count, 2)
-        XCTAssertTrue(sut.breeds[0].isFavorite)
-        XCTAssertFalse(sut.breeds[1].isFavorite)
+        XCTAssertEqual(sut.filteredBreeds.count, 2)
+        XCTAssertTrue(sut.filteredBreeds[0].isFavorite)
+        XCTAssertFalse(sut.filteredBreeds[1].isFavorite)
     }
+    
+    func test_filteredResults_updatesWithSearchTextChanges_breedName() {
+        // Given
+        let allBreeds = [
+            Breed(name: "breed1", isFavorite: false, subBreeds: []),
+            Breed(name: "breed2", isFavorite: false, subBreeds: [])
+        ]
+        
+        // When
+        mockBreedsStream.breedsSubject.send(allBreeds)
+        sut.searchText = "breed1"
+        
+        // Then
+        XCTAssertEqual(sut.filteredBreeds.count, 1)
+    }
+
+    func test_filteredResults_updatesWithSearchTextChanges_subBreedName() {
+        // Given
+        let afghanSubBreed = SubBreed(name: "afghan", isFavorite: false)
+        let afghanSubBreed2 = SubBreed(name: "afghan2", isFavorite: false)
+
+        let allBreeds = [
+            Breed(name: "breed1", isFavorite: false, subBreeds: [afghanSubBreed]),
+            Breed(name: "breed2", isFavorite: false, subBreeds: [afghanSubBreed2]),
+            Breed(name: "breed3", isFavorite: false, subBreeds: [afghanSubBreed]),
+            Breed(name: "breed4", isFavorite: false, subBreeds: []),
+        ]
+        
+        // When
+        mockBreedsStream.breedsSubject.send(allBreeds)
+        sut.searchText = "afghan"
+        
+        // Then
+        XCTAssertEqual(sut.filteredBreeds.count, 3)
+    }
+
+    
 }

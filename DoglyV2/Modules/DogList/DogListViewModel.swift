@@ -25,6 +25,12 @@ class DogListViewModel: NSObject, DogListViewModelProtocol {
     // MARK: - Published Properties
     private var breeds: [Breed] = []
     
+    var searchText: String? {
+        didSet {
+            filterSearchResults()
+        }
+    }
+    
     @Published var errorMessage: String?
     @Published var filteredBreeds: [Breed] = []
         
@@ -70,11 +76,9 @@ class DogListViewModel: NSObject, DogListViewModelProtocol {
             }
             .store(in: &cancellables)
     }
-}
-
-extension DogListViewModel: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let searchText = searchController.searchBar.text?.lowercased(),
+    
+    private func filterSearchResults() {
+        guard let searchText = searchText,
               !searchText.isEmpty else {
             filteredBreeds = breeds
             return
@@ -98,5 +102,11 @@ extension DogListViewModel: UISearchResultsUpdating {
             
             return result
         }
+    }
+}
+
+extension DogListViewModel: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        self.searchText = searchController.searchBar.text
     }
 }

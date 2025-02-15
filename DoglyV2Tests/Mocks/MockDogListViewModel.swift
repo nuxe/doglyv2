@@ -10,7 +10,7 @@ import Testing
 @testable import DoglyV2
 
 class MockDogListViewModel: DogListViewModelProtocol {
-    var breeds: [Breed] = []
+    var filteredBreeds: [Breed] = []
     var errorMessage: String?
     
     var updateFavoriteBreedCallCount = 0
